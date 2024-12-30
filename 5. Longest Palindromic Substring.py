@@ -1,15 +1,20 @@
-class Solution:
-    def longestPalindrome(self, s: str) -> str:
-        if len(s) <= 1:
-            return s
+def longestPalindrome(s):
+        def traverse(l, r):
+            while l >= 0  and r < len(s) and s[l] == s[r]:
+                l -= 1
+                r += 1
+            return s[l+1: r] 
         
-        Max_Len=1
-        Max_Str=s[0]
-        for i in range(len(s)-1):
-            for j in range(i+1,len(s)):
-                if j-i+1 > Max_Len and s[i:j+1] == s[i:j+1][::-1]:
-                    Max_Len = j-i+1
-                    Max_Str = s[i:j+1]
+        res = ""
 
-        return Max_Str
-        
+        for i in range(len(s)):
+            l, r = i, i 
+            temp = traverse(l, r)
+            if len(temp) > len(res):
+                res = temp
+            
+            #when it's even
+            temp = traverse(i, i+1)
+            if len(temp) > len(res):
+                res = temp
+        return res
